@@ -26,6 +26,14 @@ class _HomeScreen extends StatefulWidget {
 }
 
 class __HomeScreenState extends State<_HomeScreen> {
+  IQuestionViewModel _iQuestionViewModel;
+  @override
+  void initState() {
+    _iQuestionViewModel = context.read<IQuestionViewModel>();
+    _iQuestionViewModel.init();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,9 +45,13 @@ class __HomeScreenState extends State<_HomeScreen> {
           Consumer<IQuestionViewModel>(
             builder: (context, viewModel, _) {
               return Container(
-                child: Text(
-                  '1 + 1 = 2',
-                  style: TextStyle(fontSize: 70.sp),
+                child: Consumer<IQuestionViewModel>(
+                  builder: (context, vm, state) {
+                    return Text(
+                      vm.curnentCalculation,
+                      style: TextStyle(fontSize: 70.sp),
+                    );
+                  },
                 ),
               );
             },
@@ -50,7 +62,9 @@ class __HomeScreenState extends State<_HomeScreen> {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _iQuestionViewModel.checkAnswer(false);
+                    },
                     child: Card(
                       color: Colors.redAccent,
                       child: SizedBox(
@@ -68,7 +82,9 @@ class __HomeScreenState extends State<_HomeScreen> {
                 ),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      _iQuestionViewModel.checkAnswer(true);
+                    },
                     child: Card(
                       color: Colors.greenAccent,
                       child: SizedBox(

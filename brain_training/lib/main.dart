@@ -29,17 +29,11 @@ class _MyAppState extends State<MyApp> {
       await AudioHelper.initial(
         backgroundPrefix: 'assets/sounds/background/',
         backgroundMusicNames: [
-          'b1.mp3',
-          'b2.mp3',
-          'b3.mp3',
-          'b4.mp3',
-          'b5.mp3', 
-          'b6.mp3',
+          'background.wav'
         ],
       );
       AudioHelper.playMusic();
     });
-
     super.initState();
   }
 

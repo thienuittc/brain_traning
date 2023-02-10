@@ -1,8 +1,12 @@
+import 'package:brain_training/core/view_models/screen/interfaces/iquestion_viewmodel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
+import 'package:timer_count_down/timer_controller.dart';
+import 'package:timer_count_down/timer_count_down.dart';
 
 class Header extends StatefulWidget {
   const Header({Key key}) : super(key: key);
@@ -13,8 +17,14 @@ class Header extends StatefulWidget {
 
 class _HeaderState extends State<Header> {
   int timer = 5;
+  CountdownController countdownController = CountdownController();
+  IQuestionViewModel viewModel;
   @override
   void initState() {
+    Future.delayed(Duration.zero, () {
+      viewModel = context.read<IQuestionViewModel>();
+      viewModel.setCountdownController(countdownController);
+    });
     super.initState();
   }
 
@@ -45,9 +55,13 @@ class _HeaderState extends State<Header> {
                     SvgPicture.asset(
                       "assets/images/Group 12.svg",
                     ),
-                    Text(
-                      '0',
-                      style: TextStyle(fontSize: 26.sp),
+                    Consumer<IQuestionViewModel>(
+                      builder: (context, vm, state) {
+                        return Text(
+                          vm.curnentScore.toString(),
+                          style: TextStyle(fontSize: 26.sp),
+                        );
+                      },
                     ),
                   ],
                 ),
@@ -67,19 +81,16 @@ class _HeaderState extends State<Header> {
                   child: Center(
                     child: RotationTransition(
                       turns: AlwaysStoppedAnimation(-45 / 360),
-                      child: StreamBuilder(
-                          stream: Stream.periodic(const Duration(seconds: 1)).,
-                          builder: (context, snapshot) {
-                            if (timer == 0) {
-                              timer = 5;
-                            } else {
-                              timer -= 1;
-                            }
-                            return Text(
-                              timer.toString(),
-                              style: TextStyle(fontSize: 26.sp),
-                            );
-                          }),
+                      child: Countdown(
+                        controller: countdownController,
+                        seconds: 3,
+                        build: (BuildContext context, double time) =>
+                            Text(time.toInt().toString()),
+                        interval: Duration(seconds: 1),
+                        onFinished: () {
+                          viewModel.timeOut();
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -97,9 +108,13 @@ class _HeaderState extends State<Header> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Text(
-                      "0",
-                      style: TextStyle(fontSize: 26.sp),
+                    Consumer<IQuestionViewModel>(
+                      builder: (context, vm, state) {
+                        return Text(
+                          vm.level.toString(),
+                          style: TextStyle(fontSize: 26.sp),
+                        );
+                      },
                     ),
                     SvgPicture.asset(
                       "assets/images/Group 13.svg",

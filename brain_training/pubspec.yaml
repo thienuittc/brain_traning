@@ -19,6 +19,7 @@ dependencies:
     equatable: ^1.0.1
     flutter_svg: ^1.0.3    
     lottie: ^1.4.3
+    timer_count_down: ^2.2.2
 dev_dependencies:
     flutter_test:
         sdk: flutter
