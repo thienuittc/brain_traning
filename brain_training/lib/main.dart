@@ -1,4 +1,5 @@
 import 'package:audio_helper/audio_helper.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -11,6 +12,7 @@ import 'package:provider/provider.dart';
 import 'views/home/home_view.dart';
 
 void main() async {
+ // SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   await LocatorInjector.setupLocator();
   runApp(MyApp());
 }
@@ -29,7 +31,12 @@ class _MyAppState extends State<MyApp> {
       await AudioHelper.initial(
         backgroundPrefix: 'assets/sounds/background/',
         backgroundMusicNames: [
-          'background.wav'
+          'b1.mp3',
+          'b2.mp3',
+          'b3.mp3',
+          'b4.mp3',
+          'b5.mp3',
+          'b6.mp3',
         ],
       );
       AudioHelper.playMusic();
@@ -46,9 +53,9 @@ class _MyAppState extends State<MyApp> {
         minTextAdapt: true,
         splitScreenMode: true,
         builder: (_, __) => GetMaterialApp(
-          title: 'Catch the word',
+          title: 'Brain Training',
           onGenerateRoute: (settings) => MyRouter.generateRoute(settings),
-          initialRoute: MyRouter.home,
+          initialRoute: MyRouter.splash,
           theme: ThemeData(
             primarySwatch: Colors.blue,
             scaffoldBackgroundColor: Colors.white,

@@ -1,4 +1,4 @@
-package com.example.brain_training
+package com.thienthinh.brain_training
 
 import io.flutter.embedding.android.FlutterActivity
 

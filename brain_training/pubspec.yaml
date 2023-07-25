@@ -3,7 +3,7 @@ description: A new Flutter project.
 publish_to: none
 version: 1.0.0+1
 environment:
-    sdk: '>=2.3.0 <3.0.0'
+  sdk: ">=3.0.3 <4.0.0"
 dependencies:
     flutter:
         sdk: flutter
@@ -11,7 +11,7 @@ dependencies:
     responsive_builder: ^0.1.4
     provider: ^6.0.2
     logger: ^0.7.0+2
-    get_it: ^3.0.3
+    get_it: ^7.6.0
     get: ^4.6.1
     audio_helper: ^0.0.2    
     flutter_screenutil: ^5.3.1    

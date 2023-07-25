@@ -8,7 +8,7 @@
 PRODUCT_NAME = brain_training
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.brainTraining
+PRODUCT_BUNDLE_IDENTIFIER = com.thienthinh.brainTraining
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 com.thienthinh. All rights reserved.

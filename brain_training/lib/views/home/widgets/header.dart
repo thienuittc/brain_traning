@@ -34,6 +34,34 @@ class _HeaderState extends State<Header> {
       padding: EdgeInsets.symmetric(horizontal: 15.w, vertical: 50.h),
       child: Column(
         children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15.w),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Điểm',
+                  style: TextStyle(fontSize: 18.sp),
+                ),
+                Text(
+                  'Cấp độ',
+                  style: TextStyle(fontSize: 18.sp),
+                ),
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: SvgPicture.asset(
+                //     "assets/images/Group 23.svg",
+                //   ),
+                // ),
+                // GestureDetector(
+                //   onTap: () {},
+                //   child: SvgPicture.asset(
+                //     "assets/images/Group 17.svg",
+                //   ),
+                // ),
+              ],
+            ),
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -84,8 +112,10 @@ class _HeaderState extends State<Header> {
                       child: Countdown(
                         controller: countdownController,
                         seconds: 3,
-                        build: (BuildContext context, double time) =>
-                            Text(time.toInt().toString()),
+                        build: (BuildContext context, double time) => Text(
+                          time.toInt().toString(),
+                          style: TextStyle(fontSize: 30.sp),
+                        ),
                         interval: Duration(seconds: 1),
                         onFinished: () {
                           viewModel.timeOut();
@@ -127,26 +157,27 @@ class _HeaderState extends State<Header> {
               ),
             ],
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 15.w),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                GestureDetector(
-                  onTap: () {},
-                  child: SvgPicture.asset(
-                    "assets/images/Group 23.svg",
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {},
-                  child: SvgPicture.asset(
-                    "assets/images/Group 17.svg",
-                  ),
-                ),
-              ],
-            ),
-          )
+          // Padding(
+          //   padding: EdgeInsets.symmetric(horizontal: 15.w),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Text('Điểm'), Text('Cấp độ'),
+          //       // GestureDetector(
+          //       //   onTap: () {},
+          //       //   child: SvgPicture.asset(
+          //       //     "assets/images/Group 23.svg",
+          //       //   ),
+          //       // ),
+          //       // GestureDetector(
+          //       //   onTap: () {},
+          //       //   child: SvgPicture.asset(
+          //       //     "assets/images/Group 17.svg",
+          //       //   ),
+          //       // ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

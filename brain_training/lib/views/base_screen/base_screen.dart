@@ -35,7 +35,8 @@ class _BaseScreenState extends State<BaseScreen> {
           )),
       child: Stack(
         children: [
-          const _Clould(),
+          Image.asset("assets/images/clould.png"),
+          //const _Clould(),
           // Positioned(
           //   bottom: 0,
           //   left: 0,

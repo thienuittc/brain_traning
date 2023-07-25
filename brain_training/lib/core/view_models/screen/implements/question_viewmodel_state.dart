@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:timer_count_down/timer_controller.dart';
 import 'dart:math';
+import '../../../../widgets/dialog.dart';
 import '../interfaces/iquestion_viewmodel.dart';
 
 class QuestionViewModel extends ChangeNotifier implements IQuestionViewModel {
@@ -41,21 +42,17 @@ class QuestionViewModel extends ChangeNotifier implements IQuestionViewModel {
     } else {
       await soundEffect.play(failedSoundId);
       _countdownController.pause();
-      Get.defaultDialog(
-        title: 'Thua rồi TT',
-        middleText: '',
-        confirm: TextButton(
-          onPressed: () {
-            Get.back();
+      Get.dialog(
+        GemDialog(
+          onBack: () {
+            _playing = false;
             clearAll();
-            _genData();
+            Get.back();
           },
-          child: Text('Chơi lại'),
         ),
         barrierDismissible: false,
       );
     }
-    AudioHelper.playMusic();
   }
 
   Future<void> initSound() async {
@@ -68,13 +65,13 @@ class QuestionViewModel extends ChangeNotifier implements IQuestionViewModel {
   @override
   Future<void> init() async {
     await initSound();
-    _genData();
+    _countdownController.pause();
   }
 
   void _genData() {
     if (_curnentScore != 0 && _curnentScore % 10 == 0) _level++;
     _answer = rng.nextBool();
-    switch (rng.nextInt(4)) {
+    switch (rng.nextInt(_level < 2 ? 2 : 4)) {
       case 0:
         summation();
         break;
@@ -104,83 +101,76 @@ class QuestionViewModel extends ChangeNotifier implements IQuestionViewModel {
   }
 
   void summation() {
-    int x = rng.nextInt(10 * _level) + 1;
-    int y = rng.nextInt(10 * _level) + 1;
+    int x = rng.nextInt(10 + _level * 5) + 1;
+    int y = rng.nextInt(10 + _level * 5) + 1;
     int z = x + y;
     if (!_answer) {
       rng.nextBool()
-          ? (z += rng.nextInt(5 * _level) + 1)
-          : (z -= rng.nextInt(5 * _level) + 1);
+          ? (z += rng.nextInt(5 + _level * 2) + 1)
+          : (z -= rng.nextInt(5 + _level * 2) + 1);
     }
     _curnentCalculation = '$x + $y = $z';
   }
 
   void subtraction() {
-    int x = rng.nextInt(10 * _level) + 1;
-    int y = rng.nextInt(10 * _level) + 1;
+    int x = rng.nextInt(10 + _level * 5) + 1;
+    int y = rng.nextInt(10 + _level * 5) + 1;
     int z = x - y;
     if (!_answer) {
       rng.nextBool()
-          ? (z += rng.nextInt(5 * _level) + 1)
-          : (z -= rng.nextInt(5 * _level) + 1);
+          ? (z += rng.nextInt(5 + _level * 2) + 1)
+          : (z -= rng.nextInt(5 + _level * 2) + 1);
     }
     _curnentCalculation = '$x - $y = $z';
   }
 
   void multiplication() {
-    int x = rng.nextInt(10 * _level) + 1;
-    int y = rng.nextInt(10 * _level) + 1;
+    int x = rng.nextInt(5 + _level * 2) + 1;
+    int y = rng.nextInt(5 + _level * 2) + 1;
     int z = x * y;
     if (!_answer) {
       rng.nextBool()
-          ? (z += rng.nextInt(5 * _level) + 1)
-          : (z -= rng.nextInt(5 * _level) + 1);
+          ? (z += rng.nextInt(2 + _level) + 1)
+          : (z -= rng.nextInt(2 + _level) + 1);
     }
     _curnentCalculation = '$x x $y = $z';
   }
 
   void division() {
-    int x = rng.nextInt(10 * _level) + 1;
-    int y = rng.nextInt(10 * _level) + 1;
+    int x = rng.nextInt(5 + _level * 2) + 1;
+    int y = rng.nextInt(5 + _level * 2) + 1;
     int z = x * y;
     if (!_answer) {
       rng.nextBool()
-          ? (z += rng.nextInt(5 * _level) + 1)
-          : (z -= rng.nextInt(5 * _level) + 1);
+          ? (x += rng.nextInt(1 + _level) + 1)
+          : (x -= rng.nextInt(1 + _level) + 1);
     }
-    _curnentCalculation = '$z / $y = $x';
+    _curnentCalculation = '$z ÷ $y = $x';
   }
 
   @override
-  Future<void> timeOut() {
-    clearAll();
-    Get.defaultDialog(
-      title: 'Time Out!!!',
-      middleText: '',
-      confirm: TextButton(
-        onPressed: () {
+  Future<void> timeOut() async {
+    await soundEffect.play(failedSoundId);
+    Get.dialog(
+      GemDialog(
+        onBack: () {
+          _playing = false;
+          clearAll();
           Get.back();
-          _genData();
+          notifyListeners();
         },
-        child: Text('Chơi lại'),
       ),
       barrierDismissible: false,
     );
-    // Get.dialog(
-    //   SizedBox(
-    //     height: 200.h,
-    //     width: 300.h,
-    //     child: Card(
-    //         child: Column(
-    //       children: [
-    //         Text('Time Out!!!'),
-    //         TextButton(
-    //             onPressed: () {
-    //               _genData();
-    //             },
-    //             child: Text('Chơi lại'))
-    //       ],
-    //     )),
+    // Get.defaultDialog(
+    //   title: 'Time Out!!!',
+    //   middleText: '',
+    //   confirm: TextButton(
+    //     onPressed: () {
+    //       Get.back();
+    //       _genData();
+    //     },
+    //     child: Text('Chơi lại'),
     //   ),
     //   barrierDismissible: false,
     // );
@@ -190,4 +180,26 @@ class QuestionViewModel extends ChangeNotifier implements IQuestionViewModel {
   @override
   // TODO: implement level
   int get level => _level;
+
+  bool _playing = false;
+  @override
+  bool get playing => _playing;
+  @override
+  set setPlaying(bool playing) {
+    _playing = playing;
+    clearAll();
+    _genData();
+    notifyListeners();
+  }
+
+  bool _musicOn = true;
+  @override
+  bool get musicOn => _musicOn;
+
+  @override
+  set setMusic(bool musicOn) {
+    _musicOn = musicOn;
+    musicOn ? AudioHelper.playMusic() : AudioHelper.stopMusic();
+    notifyListeners();
+  }
 }

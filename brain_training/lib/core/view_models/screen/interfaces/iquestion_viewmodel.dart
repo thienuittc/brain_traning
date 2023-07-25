@@ -9,4 +9,8 @@ abstract class IQuestionViewModel with ChangeNotifier {
   setCountdownController(CountdownController controller);
   Future<void> timeOut();
   int get level;
+  bool get playing;
+  set setPlaying(bool playing);
+  bool get musicOn;
+  set setMusic(bool musicOn);
 }

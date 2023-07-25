@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.brain_training">
+    package="com.thienthinh.brain_training">
    <application
-        android:label="brain_training"
+        android:label="Brain Training"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
